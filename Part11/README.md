@@ -29,3 +29,15 @@ jobs:
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
           message: "❌ Build failed on commit ${{ github.sha }}"
+
+- name: Record start time
+  run: echo "BUILD_START=$(date +%s)" >> $GITHUB_ENV
+
+- name: Run build
+  run: npm run build
+
+- name: Show build time
+  run: |
+    END=$(date +%s)
+    echo "Build took $((END - BUILD_START)) seconds"
+
