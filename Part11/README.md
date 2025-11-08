@@ -51,3 +51,21 @@ jobs:
       ⏱️ Duration: $((END - BUILD_START)) seconds
       🧱 Status: ${{ job.status }}
 
+// buildHistory.js
+import axios from "axios";
+
+const GITHUB_API = "https://api.github.com/repos/Gladys334/Full-Stack-Open-Part-11/actions/runs";
+
+async function getBuildHistory() {
+  const response = await axios.get(GITHUB_API);
+  const runs = response.data.workflow_runs.map(run => ({
+    id: run.id,
+    status: run.conclusion,
+    created_at: run.created_at,
+    updated_at: run.updated_at
+  }));
+  console.log("Recent Builds:", runs);
+}
+
+getBuildHistory();
+
