@@ -41,3 +41,13 @@ jobs:
     END=$(date +%s)
     echo "Build took $((END - BUILD_START)) seconds"
 
+- name: Report build metrics to Discord
+  if: always()
+  uses: Ilshidur/action-discord@v2
+  with:
+    webhook: ${{ secrets.DISCORD_WEBHOOK }}
+    message: |
+      📊 **Build Metrics**
+      ⏱️ Duration: $((END - BUILD_START)) seconds
+      🧱 Status: ${{ job.status }}
+
